@@ -93,6 +93,7 @@ else {
     <link rel="stylesheet" href="assets/css/Google-Style-Login.css">
     <link rel="stylesheet" href="assets/css/Header-Blue.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="../styles.css">
 	<style>
 		.back {
 			padding:10px;
@@ -143,5 +144,6 @@ else {
 
 	<script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <?php include '../main/footer.php'; ?>
 </body>
 </html>

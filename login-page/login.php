@@ -63,6 +63,7 @@ if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
     <link rel="stylesheet" href="assets/css/Google-Style-Login.css">
     <link rel="stylesheet" href="assets/css/Header-Blue.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 
 <body>
@@ -93,6 +94,7 @@ if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <?php include '../main/footer.php'; ?>
 </body>
 
 </html>

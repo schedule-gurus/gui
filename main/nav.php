@@ -20,7 +20,7 @@
             <?php else: ?>
                 <!-- Todo: change this to say hi to persons first name -->
                 <span class="navbar-text" id="hi">Hi <?php echo $_SESSION["email"]; ?>!</span>
-                <a class="btn btn-light action-button" role="button" href="../login/logout.php">Logout</a>
+                <a class="btn btn-light action-button" role="button" href="../login-page/logout.php">Logout</a>
 
             <?php endif; ?>
 
