@@ -1,6 +1,7 @@
 <?php
 
 require '../config/config.php';
+// error_reporting(E_ALL);
 
 ?>
 
@@ -24,6 +25,9 @@ require '../config/config.php';
     		margin-top:10px;
     		margin-left: 5px;
     	}
+    	#inputMajorAbrv {
+    		margin-bottom: 10px;
+    	}
     </style>
 </head>
 
@@ -40,18 +44,20 @@ require '../config/config.php';
                 <div class="col">
                     <div class="login-card"><img class="profile-img-card" src="assets/img/avatar_2x.png">
                         <p class="profile-name-card"> </p>
-                        <form class="form-register">
+                        <form class="form-register" id="register" action="register-confirmation.php" method="POST">
                         	<span class="reauth-email"> </span>
-                        	<input class="form-control" type="name" id="inputFname" required="" placeholder="First Name" autofocus="">
-                        	<input class="form-control" type="name" id="inputLname" required="" placeholder="Last Name" autofocus="">
-                        	<input class="form-control" type="email" id="inputEmail" required="" placeholder="Email address" autofocus="">
-                        	<input class="form-control" type="password" id="inputPassword" required="" placeholder="Password" autofocus="">
+                        	<input class="form-control" type="name" id="inputFname" name="inputFname" required="" placeholder="First Name" autofocus="">
+                        	<input class="form-control" type="name" id="inputLname" name="inputLname" required="" placeholder="Last Name" autofocus="">
+                        	<input class="form-control" type="email" id="inputEmail" name="inputEmail" required="" placeholder="Email address" autofocus="">
+                        	<input class="form-control" type="password" id="inputPassword" name="inputPassword" required="" placeholder="Password" autofocus="" />
                         	<label for="gradYear">Graduation Year:</label>
-                        	<select required="" id="gradYear"></select>
-                        	<input class="form-control" type="major" id="inputMajor" required="" placeholder="Major" autofocus="">
-                        	<input class="form-control" type="minor" id="inputMinor" placeholder="Minor" autofocus="">
+                        	<select name="gradYear" required="" id="gradYear"></select>
+                        	<input class="form-control" type="major" id="inputMajor" name="inputMajor" required="" placeholder="Major Name" autofocus="" />
+                        	<input class="form-control" name="inputMajorAbrv" type="major" id="inputMajorAbrv" required="" placeholder="Major 4-Letter Abbreviation" autofocus="" />
 
-                        <button class="btn btn-primary btn-block btn-lg btn-signin" type="submit">Sign Up</button></form></div>
+
+                        <button class="btn btn-primary btn-block btn-lg btn-signin" type="submit">Sign Up</button>
+                    </form></div>
             </div>
         </div>
     </div>
@@ -72,4 +78,43 @@ for(var year = start ; year <=end; year++){
   options += "<option>"+ year +"</option>";
 }
 document.getElementById("gradYear").innerHTML = options;
+
+// Validate user input
+document.querySelector("#register").onsubmit = function(event) {
+	if(document.querySelector("#inputFname").value.trim().length == 0) {
+		event.preventDefault();
+		alert("First name cannot be empty!");
+		document.querySelector("#inputFname").value = "";
+	} 
+	if(document.querySelector("#inputLname").value.trim().length == 0) {
+		event.preventDefault();
+		alert("Last name cannot be empty!");
+		document.querySelector("#inputLname").value = "";
+	} 
+
+	if(document.querySelector("#inputEmail").value.trim().length == 0) {
+		event.preventDefault();
+		alert("Email cannot be empty!");
+		document.querySelector("#inputEmail").value = "";
+	} 
+
+	if(document.querySelector("#password").value.trim().length == 0) {
+		event.preventDefault();
+		alert("Password cannot be empty!");
+		document.querySelector("#password").value = "";
+	} 
+
+	if(document.querySelector("#inputMajor").value.trim().length == 0) {
+		event.preventDefault();
+		alert("Major cannot be empty!");
+		document.querySelector("#inputMajor").value = "";
+	} 
+
+	if(document.querySelector("#inputMajorAbrv").value.trim().length == 0) {
+		event.preventDefault();
+		alert("Major abbreviation cannot be empty!");
+		document.querySelector("#inputMajorAbrv").value = "";
+	} 
+};
+
 </script>
