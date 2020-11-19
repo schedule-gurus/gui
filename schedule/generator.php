@@ -126,82 +126,51 @@ function validate(str) {
     if(res.length == 2 && res[0].length <=4 && res[0].length > 0 && res[1].length == 3) {
         str = "";
         str = res[0] + '-' + res[1];
-        return str;
+        return str; 
     }
     return null;
 };
+
+function checkValid(id) {
+    if(document.getElementById(id).value.trim().length != 0) {
+        var s = validate(document.getElementById(id).value.trim());
+        if(s != null) {
+            list[count] = s;
+            count = count + 1;
+        } else {
+            alert(`Input ` + id + ` is malformated!`);
+            return false;
+        }
+    } 
+    return true;
+}
 // Validate user input
-function isValidForm() {
-    if(document.querySelector("#1").value.trim().length != 0) {
-        var s = validate(document.querySelector("#1").value.trim());
-        if(s != null) {
-            list[count] = s;
-            count = count + 1;
-        } else {
-            alert("Input 1 is malformated!");
-            return false;
+function isValidForm(id) {
+    for (let i = 1; i < 7; i++) {
+        const res = checkValid(i)
+        if (!res) {
+            return  false
         }
-    } 
-    if(document.querySelector("#2").value.trim().length != 0) {
-        var s = validate(document.querySelector("#2").value.trim());
-        if(s != null) {
-            list[count] = s;
-            count = count + 1;
-        } else {
-            alert("Input 2 is malformated!");
-            return false;
-        }
-    } 
-
-    if(document.querySelector("#3").value.trim().length != 0) {
-        var s = validate(document.querySelector("#3").value.trim());
-        if(s != null) {
-            list[count] = s;
-            count = count + 1;
-        } else {
-            alert("Input 3 is malformated!");
-            return false;
-        }
-    } 
-
-    if(document.querySelector("#4").value.trim().length != 0) {
-        var s = validate(document.querySelector("#4").value.trim());
-        if(s != null) {
-            list[count] = s;
-            count = count + 1;
-        } else {
-            alert("Input 4 is malformated!");
-            return false;
-        }
-    } 
-
-    if(document.querySelector("#5").value.trim().length != 0) {
-        var s = validate(document.querySelector("#5").value.trim());
-        if(s != null) {
-            list[count] = s;
-            count = count + 1;
-        } else {
-            alert("Input 5 is malformated!");
-            return false;
-        }
-    } 
-
-    if(document.querySelector("#6").value.trim().length != 0) {
-        var s = validate(document.querySelector("#6").value.trim());
-        if(s != null) {
-            list[count] = s;
-            count = count + 1;
-        } else {
-            alert("Input 6 is malformated!");
-            return false;
-        }
-    } 
+    }
     console.log(list);
     return true;
 };
 
-document.querySelector("#generate").onsubmit = function(event) {
-    return isValidForm();
+document.querySelector("#generate").onclick = function(event) {
+    console.log("pilar is pilar")
+    event.preventDefault();
+    isValidForm();
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+           // Typical action to be performed when the document is ready:
+           console.log(xhttp.responseText);
+        }
+    };
+    // TODO FIX THIS
+    xhttp.open("GET", "http://localhost:8000/backend?list" + JSON.stringify(list), true);
+    xhttp.send();
+    // return isValidForm();
 };
 
 
