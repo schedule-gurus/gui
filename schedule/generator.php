@@ -3,6 +3,10 @@
 require '../config/config.php';
 // error_reporting(E_ALL);
 
+// if ( !isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] ) {
+//     header('Location: ../main/index.php');
+// }
+
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +48,11 @@ require '../config/config.php';
             /*color:black;*/
             text-align: center;
             font-size:17px;
+        }
+        #ptag2 {
+            /*color:black;*/
+            text-align: center;
+            font-size:14px;
         }
         #classes {
             /*display: inline;
@@ -94,6 +103,7 @@ require '../config/config.php';
                         <p class="profile-name-card"> </p>
                         <form class="form-register" id="classes" onsubmit="return isValidForm()" action="" method="">
                             <p id="ptag" style="color:black">Please enter the classes you want to take in the following format:<br> <em>Department Code-Course Number</em><br>Ex: <em>CSCI-201</em></p>
+                            <p id="ptag2" style="color:red"><em>Warning: Generating a new schedule while logged in will overwrite your previous one.</em></p>
                         	<input class="form-control" type="name" id="1" name="input1" placeholder="SOCI-200">
                             <input class="form-control" type="name" id="2" name="input2" placeholder="EE-109">
                             <input class="form-control" type="name" id="3" name="input3" placeholder="CTAN-452">

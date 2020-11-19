@@ -9,7 +9,7 @@
             <ul class="nav navbar-nav">
                 <li class="nav-item"></li>
                 <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Menu&nbsp;</a>
-                    <div class="dropdown-menu"><a class="dropdown-item" href="../schedule/schedule.php">Scheduling</a><a class="dropdown-item" href="../social/social.php">Social</a><a class="dropdown-item" target="" href="../main/activity.php">Active Users</a></div>
+                    <div class="dropdown-menu"><a class="dropdown-item" href="../schedule/schedule.php">Scheduling</a><a class="dropdown-item" href="../social/social.php">Social</a><a class="dropdown-item" target="_blank" href="https://github.com/schedule-gurus">Project GitHub</a></div>
                 </li>
             </ul>
         <form class="form-inline mr-auto" target="_self">

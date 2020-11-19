@@ -2,26 +2,26 @@
 require '../config/config.php';
 // if you're not logged in
 if ( !isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] ) {
-	header('Location: ../main/index.php');
-}
+	$error = "You cannot delete a schedule if you're not logged in.";
+} else {
+	$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+	if($mysqli->connect_errno) {
+		echo $mysqli->connect_error;
+		exit();
+	}
+	$mysqli->set_charset('utf8');
 
-$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-if($mysqli->connect_errno) {
-	echo $mysqli->connect_error;
-	exit();
-}
-$mysqli->set_charset('utf8');
+	$sql = "DELETE FROM enrolled
+	WHERE userID = " . $_SESSION['id'] . ";";
+	// var_dump($sql);
+	$results = $mysqli->query($sql) or die($mysqli->error);
+	if ( !$results ) {
+		echo $mysqli->error;
+		exit();
+	}
 
-$sql = "DELETE FROM enrolled
-WHERE userID = " . $_SESSION['id'] . ";";
-// var_dump($sql);
-$results = $mysqli->query($sql) or die($mysqli->error);
-if ( !$results ) {
-	echo $mysqli->error;
-	exit();
+	$mysqli->close();
 }
-
-$mysqli->close();
 ?>
 
 <!DOCTYPE html>

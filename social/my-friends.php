@@ -18,7 +18,7 @@ if($logged_in) {
 
 	$mysqli->set_charset('utf8');
 
-	$sql = "SELECT CONCAT(users.first , ' ' , users.last) as name, friends.friendID as friendID, users.gradYear as gradYear, major.abrv as majorAbrv, major.name as major 
+	$sql = "SELECT CONCAT(users.first , ' ' , users.last) as name, friends.friendID as friendID, users.gradYear as gradYear, major.abrv as majorAbrv, major.name as major, friends.ID as id 
 		FROM friends
 		LEFT JOIN users
 			ON friends.friendID = users.ID

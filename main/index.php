@@ -42,6 +42,7 @@
 			position: absolute;
 			bottom: 0;
 		}
+		
     </style>
 </head>
 <body>
@@ -81,13 +82,13 @@
 
 				<a href="../social/social.php"><button class="btn btn-lg btn-dark btn-primary">Social</button></a>
             </div>
-            <div class="col col-6 p-2 text-center my-auto">
+            <!-- <div class="col col-6 p-2 text-center my-auto"> -->
             	<!-- Todo: might need to make github public -->
-				<a href="activity.php" target=""><button class="btn btn-lg btn-dark btn-primary">Active Users</button></a>
-            </div>
-            <div class="col col-6 p-2 text-center my-auto">
+				<!-- <a href="activity.php" target=""><button class="btn btn-lg btn-dark btn-primary">Active Users</button></a> -->
+            <!-- </div> -->
+            <div class="col col-12 p-2 text-center my-auto">
             	<!-- Todo: might need to make github public -->
-				<a href="https://github.com/schedule-gurus" target="_blank"><button class="btn btn-lg btn-dark btn-primary">Project GitHub</button></a>
+				<a href="https://github.com/schedule-gurus" target="_blank"><button class="red btn btn-lg btn-dark btn-primary">Project GitHub</button></a>
             </div>
 
         <!-- </div> -->

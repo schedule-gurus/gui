@@ -44,7 +44,6 @@
     <link rel="stylesheet" href="../login-page/assets/css/styles.css">
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="../styles.css">
-    <title>Social</title>
     <style>
         .col {
             text-align: center;
@@ -86,18 +85,17 @@
 
                 <div class="col col-4 p-2 text-center my-auto">
 
-                    <!-- <div class="col col-6 col-md-4 col-lg-3 p-2 text-center my-auto d-flex justify-content-center"> -->
-                <a href="generator.php"><button id="gen" class="btn btn-lg btn-dark btn-primary">Generate a Schedule</button></a>
+                <!-- <a href="generator.php"> --><button id="gen" class="btn btn-lg btn-dark btn-primary" onclick="location.href = 'generator.php';">Generate a Schedule</button><!-- </a> -->
             </div>
             <div class="col col-4 p-2 text-center my-auto">
 
                     <!-- <div class="col col-6 col-md-4 col-lg-3 p-2 text-center my-auto d-flex justify-content-center"> -->
-                <a href="visualizer.php"><button id="visualize" class="btn btn-lg btn-dark btn-primary">Visualize My Schedule</button></a>
+                <button id="visualize" class="btn btn-lg btn-dark btn-primary" onclick="location.href = 'visualizer.php';">Visualize My Schedule</button>
             </div>
             <div class="col col-4 p-2 text-center my-auto">
 
                     <!-- <div class="col col-6 col-md-4 col-lg-3 p-2 text-center my-auto d-flex justify-content-center"> -->
-                <a href="delete-schedule.php"><button id="del" class="btn btn-lg btn-dark btn-primary">Delete My Schedule</button></a>
+                <button id="del" class="btn btn-lg btn-dark btn-primary"onclick="location.href = 'delete-schedule.php';">Delete My Schedule</button>
             </div>
 
                 
@@ -112,13 +110,17 @@
 </body>
 </html>
 
-<script>
+<!-- <script>
     // You must be logged in to add an article
-    var x = "<?php echo $logged_in ?>";
-    //console.log(x);
 
-    document.querySelector("#gen").onclick = function(event) {
-        if(x && <?php echo $mustDelete;?>) {
+
+function click() {
+    console.log("hello")
+}
+
+    document.getElementByID("gen").onclick = function(event) {
+        // console.log(x);
+        if(loggedin && mustdel) {
             event.preventDefault();
             alert("You must delete your schedule before generating a new one.");
         }
@@ -127,8 +129,9 @@
         }
     };
 
-    document.querySelector("#visualize").onclick = function(event) {
-        if(x == "") {
+    document.getElementById(visualize).onclick = function(event) {
+        console.log("hello")
+        if(loggedin) {
             event.preventDefault();
             alert("You must be logged in to visualize your schedule.");
         } else {
@@ -136,8 +139,8 @@
         }
     };
 
-    document.querySelector("#del").onclick = function(event) {
-        if(x == "") {
+    document.getElementById(del).onclick = function(event) {
+        if(loggedin) {
             event.preventDefault();
             alert("You must be logged in to delete your schedule.");
         }
@@ -150,4 +153,4 @@
 
 
 
-</script>
+</script> -->
