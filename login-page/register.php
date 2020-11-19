@@ -29,6 +29,7 @@ require '../config/config.php';
     	#inputMajorAbrv {
     		margin-bottom: 10px;
     	}
+        
     </style>
 </head>
 
@@ -54,7 +55,7 @@ require '../config/config.php';
                         	<label for="gradYear">Graduation Year:</label>
                         	<select name="gradYear" required="" id="gradYear"></select>
                         	<input class="form-control" type="major" id="inputMajor" name="inputMajor" required="" placeholder="Major Name" autofocus="" />
-                        	<input class="form-control" name="inputMajorAbrv" type="major" id="inputMajorAbrv" required="" placeholder="Major 4-Letter Abbreviation" autofocus="" />
+                        	<input class="form-control" name="inputMajorAbrv" type="major" id="inputMajorAbrv" required="" placeholder="Major Abbreviation (CSCI, EE, etc.)" autofocus="" />
 
 
                         <button class="btn btn-primary btn-block btn-lg btn-signin" type="submit">Sign Up</button>

@@ -19,7 +19,9 @@ if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
             }
 
             // Hash whatever user typed in for password, then compare this to the hashed password in the DB
+            // $passwordInput = hash("sha256", $_POST["password"]);
             $passwordInput = hash("sha256", $_POST["password"]);
+            // echo $passwordInput;
 
             $sql = "SELECT * FROM users
             WHERE email = '" . $_POST["email"] . "' AND password = '" . $passwordInput . "';";
@@ -33,8 +35,17 @@ if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
 
             // If we get 1 result back, means username/password combination is correct
             if($results->num_rows > 0) {
+                // echo "here";
+                $name = "";
+                $id = -1;
+                while ($row = $results->fetch_assoc()) {
+                    $name = $row['first'];
+                    $id = $row['ID'];
+                }
+
                 // Set session variables to remember this user
-                $_SESSION["email"] = $_POST["email"];
+                $_SESSION["name"] = $name;
+                $_SESSION["id"] = $id;
                 $_SESSION["logged_in"] = true;
 
                 // Success! Redirect user to the home page
@@ -64,6 +75,7 @@ if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
     <link rel="stylesheet" href="assets/css/Header-Blue.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="../styles.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> -->
 </head>
 
 <body>
@@ -79,6 +91,13 @@ if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
                 <div class="col">
                     <div class="login-card"><img class="profile-img-card" src="assets/img/avatar_2x.png">
                         <p class="profile-name-card"> </p>
+                        <span id="error" class="text-danger">
+                        <?php 
+                            if(isset($error) && !empty($error)) {
+                                echo $error;
+                            }
+                        ?>
+                    </span>
                         <form class="form-signin" name="login" id="sign-in" action="login.php" method="POST"><span class="reauth-email"></span>
                         <input class="form-control" type="email" id="inputEmail" name="email" required="" placeholder="Email address" autofocus="">
                         <input class="form-control" name="password" type="password" id="inputPassword" required="" placeholder="Password">
@@ -86,7 +105,9 @@ if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
                                 class="checkbox">
                                 <!-- Commented this out bc idk how to make it remember logins -->
                                 <!-- <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Remember me</label></div> -->
-                    </div><button class="btn btn-primary btn-block btn-lg btn-signin" type="submit">Sign in</button></form><a class="forgot-password" href="#">Forgot your password?</a></div>
+                    </div><button class="btn btn-primary btn-block btn-lg btn-signin" type="submit">Sign in</button></form>
+                    <!-- <a class="forgot-password" href="#">Forgot your password?</a> -->
+                </div>
             </div>
         </div>
     </div>
