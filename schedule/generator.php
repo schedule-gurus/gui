@@ -169,6 +169,8 @@ function isValidForm(id) {
 document.querySelector("#generate").onclick = function(event) {
     console.log("pilar is pilar")
     event.preventDefault();
+    list = [];
+    count = 0;
     isValidForm();
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
