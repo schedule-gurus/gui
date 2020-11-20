@@ -97,6 +97,26 @@ require '../config/config.php';
         button {
             margin-top:10px;
         }
+        #total-results {
+            color:maroon;
+            /*text-align:center;*/
+            margin-right: auto;
+            margin-left: auto;
+            /*transform: translate(-50%, -50%);*/
+            /*position:absolute;*/
+        }
+        .class {
+            width:100%;
+            /*text-align: center;*/
+            margin-right: auto;
+            margin-left: auto;
+        }
+        h4 {
+            text-align: center;
+        }
+        .hide {
+            visibility: hidden;
+        }
     </style>
 </head>
 
@@ -119,7 +139,7 @@ require '../config/config.php';
                         <p class="profile-name-card"> </p>
                         <form class="form-register" id="classes" onsubmit="return isValidForm()" action="" method="">
                             <p id="ptag" style="color:black">Please enter the classes you want to take in the following format:<br> <em>Department Code-Course Number</em><br>Ex: <em>CSCI-201</em></p>
-                            <p id="ptag2" style="color:red"><em>Warning: Generating a new schedule while logged in will overwrite your previous one.</em></p>
+                            <!-- <p id="ptag2" style="color:red"><em>Warning: Generating a new schedule while logged in will overwrite your previous one.</em></p> -->
                         	<input class="form-control" type="name" id="1" name="input1" placeholder="SOCI-200">
                             <input class="form-control" type="name" id="2" name="input2" placeholder="EE-109">
                             <input class="form-control" type="name" id="3" name="input3" placeholder="CTAN-452">
@@ -136,6 +156,22 @@ require '../config/config.php';
             </div>
         </div>
     </div>
+
+    <div id="hid" class="hide container-fluid">
+
+        <div class="row" id="results-list">
+            <div class="col col-12">
+                <h4><span id="total-results" class="font-weight-bold">Loading...</span></h4>
+            </div>
+        </div>
+
+        <div class="row" id="body">
+
+        </div>
+
+    </div>
+
+
     </div>
     </div>
     <script src="../login-page/assets/js/jquery.min.js"></script>
@@ -190,17 +226,25 @@ document.querySelector("#generate").onclick = function(event) {
     event.preventDefault();
     list = [];
     count = 0;
-    isValidForm();
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-           // Typical action to be performed when the document is ready:
-           console.log(xhttp.responseText);
-        }
-    };
-    // TODO FIX THIS
-    xhttp.open("GET", "http://localhost:8000/backend?list" + JSON.stringify(list), true);
-    xhttp.send();
+    if(!isValidForm()) {
+
+    } else {
+        var destination = "http://localhost:8000/backend?list" + JSON.stringify(list); // TODO: add bool param
+        ajax(destination, displayResults);
+
+    }
+    
+
+    // var xhttp = new XMLHttpRequest();
+    // xhttp.onreadystatechange = function() {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //        // Typical action to be performed when the document is ready:
+    //        console.log(xhttp.responseText);
+    //     }
+    // };
+    // // TODO FIX THIS
+    // xhttp.open("GET", "http://localhost:8000/backend?list" + JSON.stringify(list), true);
+    // xhttp.send();
     // return isValidForm();
 
     // receive a json of list of schedule objects
@@ -210,6 +254,43 @@ document.querySelector("#generate").onclick = function(event) {
     // choose top 5? 10? 
     // choose to sort by distance or rmp score
 };
+
+function ajax(urlParam, callBackFunction) {
+    let httpRequest = new XMLHttpRequest();
+    httpRequest.open("GET", urlParam);
+    httpRequest.send();
+    httpRequest.onreadystatechange = function() {
+        console.log(httpRequest.readyState);
+        if(httpRequest.readyState == 4) {
+            if(httpRequest.status == 200) {
+                console.log(httpRequest.responseText);
+                callBackFunction(httpRequest.responseText);
+            } else {
+                alert("AJAX Error.");
+            }
+        }
+    }
+}
+
+function displayResults(responseParam) {
+    document.getElementById("hid").classList.remove('hide');
+    if(results.total_results == 0) {
+        document.querySelector("#total-results").innerHTML = "No schedules were generated.";
+    } else {
+        
+
+
+
+        // Display number of results
+        document.querySelector("#total-results").innerHTML = results.total_results;
+    }
+
+
+
+
+
+    
+}
 
 
 

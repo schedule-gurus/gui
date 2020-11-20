@@ -64,6 +64,13 @@
             text-align: center;
             padding-bottom: 20px;
         }
+        .atag {
+            text-decoration: none !important;
+            color:white;
+        }
+        .atag:hover {
+            color:white;
+        }
     </style>
 </head>
 <body>
@@ -90,7 +97,13 @@
             <div class="col col-4 p-2 text-center my-auto">
 
                     <!-- <div class="col col-6 col-md-4 col-lg-3 p-2 text-center my-auto d-flex justify-content-center"> -->
-                <button id="visualize" class="btn btn-lg btn-dark btn-primary" onclick="location.href = 'visualizer.php';">Visualize My Schedule</button>
+                <?php if ($logged_in) : ?>
+                <button id="visualize" class="btn btn-lg btn-dark btn-primary" onclick="location.href = 'visualizer.php?id=<?php echo $_SESSION['id'];?>&user=<?php echo $_SESSION['name'];?>';">Visualize My Schedule</button>
+                <?php else : ?>
+                    <button id="visualize" class="btn btn-lg btn-dark btn-primary" onclick="location.href = 'visualizer.php';">Visualize My Schedule</button>
+
+                <?php endif; ?>
+
             </div>
             <div class="col col-4 p-2 text-center my-auto">
 
