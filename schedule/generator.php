@@ -26,10 +26,10 @@ require '../config/config.php';
     	.form-register input {
     		margin-top: 10px;
     	}
-    	label {
+    	/*label {
     		margin-top:10px;
     		margin-left: 5px;
-    	}
+    	}*/
     	#inputMajorAbrv {
     		margin-bottom: 10px;
     	}
@@ -63,10 +63,10 @@ require '../config/config.php';
              
             /*float:left;*/
         }
-        label {
+        /*label {
             float:left;
             display:inline;
-        }
+        }*/
         select {
             width:38%;
             /*float:left;*/
@@ -78,8 +78,24 @@ require '../config/config.php';
         .floatleft {
             float:left;
         }
+        label {
+            display:inline-block;
+            padding-bottom: 0px;
+        }
         input {
             margin-bottom:10px;
+        }
+        .rad {
+            /*padding:10px;*/
+            margin-right:10px;
+            /*padding-bottom:10px;*/
+            
+        }
+        .radr {
+            margin-left:10px;
+        }
+        button {
+            margin-top:10px;
         }
     </style>
 </head>
@@ -110,6 +126,9 @@ require '../config/config.php';
                             <input class="form-control" type="name" id="4" name="input4" placeholder="ITP-303">
                             <input class="form-control" type="name" id="5" name="input5" placeholder="CSCI-104">
                             <input class="form-control" type="name" id="6" name="input6" placeholder="MUSC-200">
+                            <label for="sort">Sort schedules by:</label> <br>
+                            <input type="radio" class="rad" name="sort" checked='checked' value="rmp">Rate my Professor
+                            <input type="radio" class="rad radr" name="sort" value="dist">Distance
 
 
                         <button class="btn btn-primary btn-block btn-lg btn-signin" id="generate" type="submit">Generate</button>
@@ -183,6 +202,13 @@ document.querySelector("#generate").onclick = function(event) {
     xhttp.open("GET", "http://localhost:8000/backend?list" + JSON.stringify(list), true);
     xhttp.send();
     // return isValidForm();
+
+    // receive a json of list of schedule objects
+        // sections - list of section objects
+        // distance, avg rmp score
+
+    // choose top 5? 10? 
+    // choose to sort by distance or rmp score
 };
 
 
