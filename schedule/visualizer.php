@@ -19,7 +19,7 @@ if ( !isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] ) {
 			ON sections.instructor = instructors.ID 
 		LEFT JOIN locations 
 			ON sections.location = locations.ID 
-		WHERE " . $_SESSION['id'] . " = enrolled.userID AND enrolled.sectionID = sections.ID;";
+		WHERE " . $_GET['id'] . " = enrolled.userID AND enrolled.sectionID = sections.ID;";
 	// var_dump($sql);
 	$results = $mysqli->query($sql);
 	if ( !$results ) {
@@ -28,7 +28,7 @@ if ( !isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] ) {
 	}
 
 	if(mysqli_num_rows($results) == 0) {
-		$error = "You have no schedule saved.";
+		$error = "No schedule saved.";
 	}
 
 	$mysqli->close();
@@ -51,6 +51,12 @@ if ( !isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] ) {
 		.text-success, .text-danger {
 			text-align: center;
 		}
+		h2 {
+            color:maroon;
+            font-weight: bold;
+            text-align: center;
+        }
+
 	</style>
 </head>
 <body>
@@ -79,8 +85,65 @@ if ( !isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] ) {
 					</div>
 
 				<?php else : ?>
+					<div class="col-12">
+                    <h2><?php echo $_GET['user'];?>'s Schedule</h2>
+                </div>
 
 					<!-- TODO: add visualizer -->
+					<div class="col-12">
+				<table class="table table-hover table-responsive-sm">
+					<thead>
+						<tr>
+							<th>DotW</th>
+							<th>Title</th>
+							<th>Abbreviation</th>
+							<th>Type</th>
+							<th>Instructor</th>
+							<th>Start Time</th>
+							<th>End Time</th>
+							<th>Location</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<?php while($row = $results->fetch_assoc()) : ?>
+						<tr>
+							<td>
+								<?php echo $row["dotw"];?>
+							</td>
+							<td>
+								<?php echo $row['title'];?>
+							</td>
+							<td>
+								<?php echo $row['abrv'];?>
+							</td>
+							<td>
+								<?php echo $row['type'];?>
+							</td>
+							<td>
+								<?php echo $row['instructor'];?>
+							</td>
+							<td>
+								<?php echo $row['start'];?>
+							</td>
+							<td>
+								<?php echo $row['end'];?>
+							</td>
+							<td>
+								<?php echo $row['location'];?>
+							</td>
+
+						</tr>	
+					<?php endwhile;?>
+
+					</tbody>
+
+				</table>
+
+
+
+			</div>
+
 
 				<?php endif; ?>
 			</div>

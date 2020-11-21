@@ -85,6 +85,13 @@ if($logged_in) {
 		.sched, .remove {
 			width:15%;
 		}*/
+		.atag {
+            text-decoration: none !important;
+            color:white;
+        }
+        .atag:hover {
+            color:white;
+        }
 
 	</style>
 </head>
@@ -157,7 +164,7 @@ if($logged_in) {
 								<?php echo $row['major'];?>
 							</td>
 							<td class="sched">
-								<a href="../schedule/schedule.php?id=<?php echo $row['friendID'];?>&user=<?php echo $row['name'];?>" class="btn btn-primary btn-dark edit" role="button">Schedule</a>
+								<a href="../schedule/visualizer.php?id=<?php echo $row['friendID'];?>&user=<?php echo $row['name'];?>" class="btn btn-primary btn-dark edit atag" role="button">Schedule</a>
 							</td>
 							<td class="remove">
 								<a href="remove-friend.php?id=<?php echo $row['id'];?>&name=<?php echo $row['name'];?>" class="btn btn-primary btn-dark delete" role="button" id="delete">Remove Friend</a>
