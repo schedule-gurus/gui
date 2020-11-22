@@ -22,7 +22,7 @@
 	}
 
 	$sql = "SELECT sections.ID, sections.session, sections.title, sections.type, sections.startTime, sections.endTime, 
-			sections.instructor, sections.location, sections.dotw, sections.abrv FROM sections 
+			CONCAT(instructors.first , ' ' , instructors.last) as instructor, sections.location, sections.dotw, sections.abrv FROM sections 
 			LEFT JOIN instructors
 				ON sections.instructor = instructors.ID";
 
@@ -134,8 +134,8 @@
 					<thead>
 						<tr>
 							<th>DotW</th>
+							<th>Course Name</th>
 							<th>Title</th>
-							<th>Abbreviation</th>
 							<th>Type</th>
 							<th>Instructor</th>
 							<th>Start Time</th>
@@ -151,10 +151,10 @@
 								<?php echo $row["dotw"];?>
 							</td>
 							<td>
-								<?php echo $row['title'];?>
+								<?php echo $row['abrv'];?>
 							</td>
 							<td>
-								<?php echo $row['abrv'];?>
+								<?php echo $row['title'];?>
 							</td>
 							<td>
 								<?php echo $row['type'];?>
