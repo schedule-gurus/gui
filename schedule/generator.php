@@ -206,7 +206,10 @@ function checkValid(id) {
             alert(`Input ` + id + ` is malformated!`);
             return false;
         }
-    } 
+    } else {
+        list[count] = "";
+        count = count + 1;
+    }
     return true;
 }
 // Validate user input
@@ -226,7 +229,18 @@ document.querySelector("#generate").onclick = function(event) {
     event.preventDefault();
     list = [];
     count = 0;
-    if(!isValidForm()) {
+    let emptyCount = 0;
+    for (let i = 1; i < 7; i++) {
+        if(document.getElementById(i).value.trim().length == 0) {
+            emptyCount = emptyCount + 1;
+        } else {
+            break;
+        }
+    }
+    if(emptyCount == 6) {
+        alert("You must enter at least one class.");
+    }
+    else if(!isValidForm()) {
 
     } else {
         // true is RMP
@@ -237,7 +251,8 @@ document.querySelector("#generate").onclick = function(event) {
         if(rmp) {
             temp = 1;
         }
-        var destination = "http://localhost:8080/SchedulingServlet?metric=" + temp + "&list=" + JSON.stringify(list);
+        var destination = "http://localhost:8080/SchedulingServlet?metric=" + temp + "&c0=" + list[0] + "&c1=" + list[1] + "&c2=" + list[2] + 
+        "&c3=" + list[3] + "&c4=" + list[4] + "&c5=" + list[5];
         console.log(destination);
         ajax(destination, displayResults);
 
