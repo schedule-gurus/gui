@@ -1,5 +1,7 @@
 <?php
 	require '../config/config.php';
+	var_dump($_SESSION);
+	var_dump($_SESSION['classids']);
 
 	if(!isset($_SESSION['classids']) || empty($_SESSION['classids'])) {
 		$error = "Error with storing info in session.";
