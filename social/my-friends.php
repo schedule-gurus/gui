@@ -73,18 +73,6 @@ if($logged_in) {
 		#space {
 			padding:10px;
 		}
-
-		/*table {
-			width:100%;
-		}
-
-		.name {
-			width:70%;
-			text-align: left;
-		}
-		.sched, .remove {
-			width:15%;
-		}*/
 		.atag {
             text-decoration: none !important;
             color:white;

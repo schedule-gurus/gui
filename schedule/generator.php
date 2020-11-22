@@ -138,8 +138,8 @@ require '../config/config.php';
                     <div class="login-card"><img src="sc.png">
                         <p class="profile-name-card"> </p>
                         <form class="form-register" id="classes" onsubmit="return isValidForm()" action="" method="">
-                            <p id="ptag" style="color:black">Please enter the classes you want to take in the following format:<br> <em>Department Code-Course Number</em><br>Ex: <em>CSCI-201</em></p>
-                            <!-- <p id="ptag2" style="color:red"><em>Warning: Generating a new schedule while logged in will overwrite your previous one.</em></p> -->
+                            <p id="ptag" style="color:black">Please enter the classes you want to take in the following format:<br> <em>Department Code-Course Number</em><br><em>Ex: CSCI-201</em></p>
+                            <p id="ptag2" style="color:red"><em>Note: If logged in, this will automatically save your schedule. It is advised to delete your previous schedule before generating a new one.</em></p>
                         	<input class="form-control" type="name" id="1" name="input1" placeholder="SOCI-200">
                             <input class="form-control" type="name" id="2" name="input2" placeholder="EE-109">
                             <input class="form-control" type="name" id="3" name="input3" placeholder="CTAN-452">
@@ -147,7 +147,7 @@ require '../config/config.php';
                             <input class="form-control" type="name" id="5" name="input5" placeholder="CSCI-104">
                             <input class="form-control" type="name" id="6" name="input6" placeholder="MUSC-200">
                             <label for="sort">Sort schedules by:</label> <br>
-                            <input type="radio" class="rad" name="sort" checked='checked' value="rmp">Rate my Professor
+                            <input type="radio" id="rmp" class="rad" name="sort" checked='checked' value="rmp">Rate my Professor
                             <input type="radio" class="rad radr" name="sort" value="dist">Distance
 
 
@@ -229,30 +229,19 @@ document.querySelector("#generate").onclick = function(event) {
     if(!isValidForm()) {
 
     } else {
-        var destination = "http://localhost:8000/backend?list" + JSON.stringify(list); // TODO: add bool param
+        // true is RMP
+        // false is dist
+        var rmp = document.getElementById("rmp").checked;
+        console.log(rmp);
+        var temp = 0;
+        if(rmp) {
+            temp = 1;
+        }
+        var destination = "http://localhost:8000/backend?metric=" + temp + "&list=" + JSON.stringify(list);
+        console.log(destination);
         ajax(destination, displayResults);
 
     }
-    
-
-    // var xhttp = new XMLHttpRequest();
-    // xhttp.onreadystatechange = function() {
-    //     if (this.readyState == 4 && this.status == 200) {
-    //        // Typical action to be performed when the document is ready:
-    //        console.log(xhttp.responseText);
-    //     }
-    // };
-    // // TODO FIX THIS
-    // xhttp.open("GET", "http://localhost:8000/backend?list" + JSON.stringify(list), true);
-    // xhttp.send();
-    // return isValidForm();
-
-    // receive a json of list of schedule objects
-        // sections - list of section objects
-        // distance, avg rmp score
-
-    // choose top 5? 10? 
-    // choose to sort by distance or rmp score
 };
 
 function ajax(urlParam, callBackFunction) {
@@ -273,25 +262,14 @@ function ajax(urlParam, callBackFunction) {
 }
 
 function displayResults(responseParam) {
-    document.getElementById("hid").classList.remove('hide');
-    if(results.total_results == 0) {
-        document.querySelector("#total-results").innerHTML = "No schedules were generated.";
-    } else {
-        
 
 
 
-        // Display number of results
-        document.querySelector("#total-results").innerHTML = results.total_results;
-    }
-
-
-
+    <?php $_SESSION['classids'] = "<script>json.parse(responseParam)</script>";?> 
+    window.location.replace("generator-visualizer.php");
 
 
     
 }
-
-
 
 </script>

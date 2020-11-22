@@ -1,9 +1,10 @@
 <?php
-require '../config/config.php';
-// if you're not logged in
-if ( !isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] ) {
-	$error = "You cannot visualize saved schedules if you're not logged in.";
-} else {
+	require '../config/config.php';
+
+	if(!isset($_SESSION['classids']) || empty($_SESSION['classids'])) {
+		$error = "Error with storing info in session.";
+	}
+	else {
 	$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	if($mysqli->connect_errno) {
 		echo $mysqli->connect_error;
@@ -11,14 +12,43 @@ if ( !isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] ) {
 	}
 	$mysqli->set_charset('utf8');
 
-	$sql = "SELECT enrolled.sectionID as id, sections.session as session, sections.title as title, 
-		sections.type as type, sections.startTime as start, sections.endTime as end, sections.instructor as instructor, sections.location as location, sections.dotw as dotw, sections.abrv as abrv FROM enrolled 
-		LEFT JOIN sections
-			ON sections.ID = enrolled.sectionID
-    	LEFT JOIN instructors
-			ON sections.instructor = instructors.ID 
-		WHERE " . $_GET['id'] . " = enrolled.userID AND enrolled.sectionID = sections.ID;";
-	// var_dump($sql);
+	$logged_in = false;
+	if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
+		$logged_in = false;
+	} else {
+		$logged_in = true;
+	}
+
+	$sql = "SELECT sections.ID, sections.session, sections.title, sections.type, sections.startTime, sections.endTime, 
+			sections.instructor, sections.location, sections.dotw, sections.abrv FROM sections 
+			LEFT JOIN instructors
+				ON sections.instructor = instructors.ID";
+
+	$count = 0;
+	$enrolled_sql = "";
+
+	// foreach ($_SESSION['classids'] as $result){
+	// 	if($count == 0) {
+	// 		$sql = $sql . " WHERE sections.ID = " . $result;
+	// 		if($logged_in) {
+	// 			$enrolled_sql = "INSERT INTO enrolled(userID, sectionID) 
+	// 			VALUES(" . $_SESSION['id'] . ", " . $result . ")";
+	// 		}
+	// 		$count = $count + 1;
+	// 	} else {
+	// 		sql = $sql . " OR sections.ID = " . $result;
+	// 		if($logged_in) {
+	// 			$enrolled_sql = ", (" . $_SESSION['id'] . ", " . $result . ")";
+	// 		}
+	// 	}
+	// }
+
+	$sql = $sql . ";";
+
+	if($logged_in) {
+		$enrolled_sql = $enrolled_sql . ";";
+	}
+
 	$results = $mysqli->query($sql);
 	if ( !$results ) {
 		echo $mysqli->error;
@@ -26,8 +56,17 @@ if ( !isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] ) {
 	}
 
 	if(mysqli_num_rows($results) == 0) {
-		$error = "No schedule saved.";
+		$error = "No classes found.";
 	}
+
+	// $enrolled_results = NULL;
+	// if($logged_in) {
+	// 	$enrolled_results = $mysqli->query($enrolled_results);
+	// 	if ( !$enrolled_results ) {
+	// 		echo $mysqli->error;
+	// 		exit();
+	// 	}
+	// }
 
 	$mysqli->close();
 }
@@ -35,7 +74,8 @@ if ( !isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] ) {
 
 <!DOCTYPE html>
 <html>
-<head><meta charset="utf-8">
+<head>
+	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="stylesheet" href="../login-page/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
@@ -44,17 +84,16 @@ if ( !isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] ) {
     <link rel="stylesheet" href="../login-page/assets/css/styles.css">
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="../styles.css">
-	<title>Schedule Visualizer</title>
+	<title>Generated Schedule</title>
 	<style>
-		.text-success, .text-danger {
+		h2 {
+			color:maroon;
+			font-weight: bold;
 			text-align: center;
 		}
-		h2 {
-            color:maroon;
-            font-weight: bold;
-            text-align: center;
-        }
-
+		#back {
+			padding:10px;
+		}
 	</style>
 </head>
 <body>
@@ -84,7 +123,7 @@ if ( !isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] ) {
 
 				<?php else : ?>
 					<div class="col-12">
-                    <h2><?php echo $_GET['user'];?>'s Schedule</h2>
+                    <h2>Your Generated Schedule</h2>
                 </div>
 
 					<!-- TODO: add visualizer -->
@@ -122,10 +161,10 @@ if ( !isset($_SESSION['logged_in']) || !$_SESSION['logged_in'] ) {
 								<?php echo $row['instructor'];?>
 							</td>
 							<td>
-								<?php echo $row['start'];?>
+								<?php echo $row['startTime'];?>
 							</td>
 							<td>
-								<?php echo $row['end'];?>
+								<?php echo $row['endTime'];?>
 							</td>
 							<td>
 								<?php echo $row['location'];?>
