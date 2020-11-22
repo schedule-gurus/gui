@@ -36,8 +36,19 @@ public class SchedulingServlet extends HttpServlet
       	// array of strings (class names) and boolean (sort by rmp score / distance)
 
       	// convert list of class abbreviations "CSCI-201" to Course[]
-
-
+      	Course[] courses = new Course[list.size()];
+      	for(int i = 0; i < list.size(); i++)
+      	{
+      		try
+      		{
+      			courses[i] = SOC_API.get_course(list.get(i), 20203);
+      		}
+      		catch(Exception e)
+      		{
+      			System.out.println("Exception when converting String abbreviations to Courses ");
+      		}
+      	}
+      	
 
 
       	
@@ -45,10 +56,10 @@ public class SchedulingServlet extends HttpServlet
       	// we call the algorithm function, 
       	// public Schedule buildBestSchedule(Course[] courses, int schedulesDesired, boolean metric)
 		// get the Schedule
-      	Schedule myClasses = buildBestSchedule(1, valforopt)
+      	Schedule myClasses = buildBestSchedule(courses, 1, valforopt)
 
       	// save classes into database sections table
-      	for(int i = 0; i < myClasses.sections.length(); i++)
+      	for(int i = 0; i < myClasses.sections.size(); i++)
       	{
 			Section currSection = myClasses.sections.get(i);
 
@@ -68,7 +79,7 @@ public class SchedulingServlet extends HttpServlet
       		}
       		catch(SQLException e)
       		{
-
+      			System.out.println("Exception when inserting into instructors table");
       		}
 
       		// get instructorID
@@ -80,6 +91,10 @@ public class SchedulingServlet extends HttpServlet
       			ps.setString(2, prof_last);
       			ResultSet rs = ps.executeQuery();
       			prof_id = rs.getInt("ID");
+      		}
+      		catch(SQLException e)
+      		{
+      			System.out.println("Exception when getting instructorID");
       		}
 
       		// add section info into sections table
@@ -102,11 +117,13 @@ public class SchedulingServlet extends HttpServlet
       		}	
       		catch(SQLException sqle)
       		{
-
+				System.out.println("Exception when adding section info into Sections table of database");
       		}		
       	}
 
-      	
+      	// get classIDs
+      	// just loop through myClasses and get each entry's .id Integer
+
 
       	// save classIDs as JSON, then send back out
 
