@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 
 
-@WebServlet("SchedulingServlet")
+@WebServlet("/SchedulingServlet")
 public class SchedulingServlet extends HttpServlet
 {
 	
