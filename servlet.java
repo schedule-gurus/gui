@@ -29,8 +29,8 @@ public class SchedulingServlet extends HttpServlet
         //conn=DriverManager.getConnection(JdbcURL, Username, password);
         
 
-      	List<String> list = request.getParameter(list);
-      	boolean valforopt = request.getParameter(metric);
+      	List<String> list = request.getParameter("list");
+      	boolean valforopt = request.getParameter("metric");
 
       	// get info from backend
       	// array of strings (class names) and boolean (sort by rmp score / distance)
