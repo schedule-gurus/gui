@@ -4,9 +4,12 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import javax.servlet.*;
 import java.sql.*;
 import java.io.*;
 import java.util.*;
+
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,7 +20,7 @@ import org.json.JSONObject;
 public class SchedulingServlet extends HttpServlet
 {
 	
-  protected void doGet(HttpServletResponse request, HttpServletResponse response) 
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException
 	{
 		
@@ -25,20 +28,59 @@ public class SchedulingServlet extends HttpServlet
 		String JdbcURL = "jdbc:mysql://303.itpwebdev.com:3306";
         String Username = "pluiz_sachi";
         String password = "csci201final";
-        Connection conn = null;	
-        //conn=DriverManager.getConnection(JdbcURL, Username, password);
         
-
-      	List<String> list = request.getParameter("list");
-      	boolean valforopt = request.getParameter("metric");
-
-      	// get info from backend
-      	// array of strings (class names) and boolean (sort by rmp score / distance)
-
-      	String[] courseNames = new String[list.size()];
-        for(int i = 0; i < list.size(); i++)
+        
+        
+        // get parameters from request
+        String metric = request.getParameter("metric");
+        String c0 = request.getParameter("c0");
+        String c1 = request.getParameter("c1");
+        String c2 = request.getParameter("c2");
+        String c3 = request.getParameter("c3");
+        String c4 = request.getParameter("c4");
+        String c5 = request.getParameter("c5");
+        boolean valforopt;
+        if(metric.compareTo("1") == 0)
         {
-          courseNames[i] = list.get(i);
+        	valforopt = true;
+        }
+        else
+        {
+        	valforopt = false;
+        }
+
+        // add valid class strings to list
+        ArrayList<String> pruneList = new ArrayList<String>();
+        if(c0.compareTo("") != 0)
+        {
+        	pruneList.add(c0);
+        }
+        if(c1.compareTo("") != 0)
+        {
+        	pruneList.add(c1);
+        }
+        if(c2.compareTo("") != 0)
+        {
+        	pruneList.add(c2);
+        }
+        if(c3.compareTo("") != 0)
+        {
+        	pruneList.add(c3);
+        }
+        if(c4.compareTo("") != 0)
+        {
+        	pruneList.add(c4);
+        }
+        if(c5.compareTo("") != 0)
+        {
+        	pruneList.add(c5);
+        }
+        
+        
+      	String[] courseNames = new String[pruneList.size()];
+        for(int i = 0; i < pruneList.size(); i++)
+        {
+        	courseNames[i] = pruneList.get(i);
         }
       	
 
@@ -62,7 +104,7 @@ public class SchedulingServlet extends HttpServlet
 
       		// insert into instructors table
       		String sql2 = "INSERT into pluiz_usc_schedule_db.instructors (first, last, rmp) VALUES (?, ?, ?) ";
-      		try (conn=DriverManager.getConnection(JdbcURL, Username, password), PreparedStatement ps = conn.prepareStatement(sql2);)
+      		try (Connection conn=DriverManager.getConnection(JdbcURL, Username, password); PreparedStatement ps = conn.prepareStatement(sql2);)
       		{
       			ps.setString(1, prof_first);
       			ps.setString(2, prof_last);
@@ -77,7 +119,7 @@ public class SchedulingServlet extends HttpServlet
       		// get instructorID
       		int prof_id = 0;
       		String sql3 = "GET i.ID FROM pluiz_usc_schedule_db.instructors as i WHERE i.first = ? AND i.last = ? ";
-      		try (conn=DriverManager.getConnection(JdbcURL, Username, password), PreparedStatement ps = conn.prepareStatement(sql3);)
+      		try (Connection conn=DriverManager.getConnection(JdbcURL, Username, password); PreparedStatement ps = conn.prepareStatement(sql3);)
       		{
       			ps.setString(1, prof_first);
       			ps.setString(2, prof_last);
@@ -91,9 +133,9 @@ public class SchedulingServlet extends HttpServlet
 
       		// add section info into sections table
       		String sql = "INSERT into pluiz_usc_schedule_db.sections ";
-      		sql += "(ID, session, title, type, startTime, endTime, instructor, location, dotw, abrv) " 
+      		sql += "(ID, session, title, type, startTime, endTime, instructor, location, dotw, abrv) " ;
       		sql += "VALUES (?,?,?,?,?,?,?,?,?,?) ";
-      		try (conn=DriverManager.getConnection(JdbcURL, Username, password), PreparedStatement ps = conn.prepareStatement(sql);)
+      		try (Connection conn=DriverManager.getConnection(JdbcURL, Username, password); PreparedStatement ps = conn.prepareStatement(sql);)
       		{
       			ps.setInt(1, currSection.id);
       			ps.setInt(2, currSection.session);
