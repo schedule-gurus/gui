@@ -125,7 +125,35 @@ public class SchedulingServlet extends HttpServlet
       	// just loop through myClasses and get each entry's .id Integer
 
 
-      	// save classIDs as JSON, then send back out
+      	// save classIDs as JSON, then send back out. done below:
+	
+	Integer[] test = new Integer[5];
+	    for(int i = 0; i < 5; i++)
+	    {
+	    	test[i] = i;
+	    }
+	    //test[0] = 1;
+	    //creates JSON object that will be put into the JSON array
+	    JSONObject jo = new JSONObject();
+    	
+    	//populates JSON object with course IDs
+    	for(int i = 0; i < test.length; i++)
+    	{
+    		//jo.put("courseID", test[i]);
+    		jo.append("courseID", test[i]);
+    	}
+    	//creates JSON array that will be populated with JSON object that represents a user's class IDs
+    	JSONArray ja = new JSONArray();
+    	//populates JSON object with user's packaged class IDs
+    	ja.put(jo);
+    	
+    	//prints out json object within the json array we're passing pilar
+    	for (int i = 0; i < ja.length(); i++)
+    	{
+    	    JSONObject pet = ja.getJSONObject(i);
+    	    System.out.println(pet);
+    	}
+	
 
     }
 
