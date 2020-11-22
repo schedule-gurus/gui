@@ -1,5 +1,5 @@
 <?php
-
+header("Access-Control-Allow-Origin: *");
 require '../config/config.php';
 // error_reporting(E_ALL);
 
@@ -165,9 +165,6 @@ require '../config/config.php';
             </div>
         </div>
 
-        <div class="row" id="body">
-
-        </div>
 
     </div>
 
@@ -245,13 +242,14 @@ document.querySelector("#generate").onclick = function(event) {
     } else {
         // true is RMP
         // false is dist
+        document.getElementById('hid').classList.remove("hide");
         var rmp = document.getElementById("rmp").checked;
         console.log(rmp);
         var temp = 0;
         if(rmp) {
             temp = 1;
         }
-        var destination = "http://localhost:8080/SchedulingServlet?metric=" + temp + "&c0=" + list[0] + "&c1=" + list[1] + "&c2=" + list[2] + 
+        var destination = "http://localhost:8080/guru-server/SchedulingServlet?metric=" + temp + "&c0=" + list[0] + "&c1=" + list[1] + "&c2=" + list[2] + 
         "&c3=" + list[3] + "&c4=" + list[4] + "&c5=" + list[5];
         console.log(destination);
         ajax(destination, displayResults);
@@ -278,8 +276,30 @@ function ajax(urlParam, callBackFunction) {
 
 function displayResults(responseParam) {
 
-    <?php $_SESSION['classids'] = "<script>json.parse(responseParam)</script>";?> 
-    window.location.replace("generator-visualizer.php");
+    
+
+
+
+    let url = "generator-visualizer.php?len=";
+    var res = responseParam.match(/\d+/g).map(Number);
+    console.log(res);
+    url = url + res.length + "&list=";
+    for(let i = 0; i < res.length; i++) {
+        if(i + 1 == res.length) {
+            url = url + res[i];
+        } else {
+            url = url + res[i] + ",";
+        }
+    }
+
+    // for(let i = 0; i < res.length; i++) {
+    //     url = url + "&a[]" + "=" + res[i];
+        
+    // }
+    console.log(url);
+    window.location.replace(url);
+
+    
     
 }
 
