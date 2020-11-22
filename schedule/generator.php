@@ -237,7 +237,7 @@ document.querySelector("#generate").onclick = function(event) {
         if(rmp) {
             temp = 1;
         }
-        var destination = "http://localhost:8000/backend?metric=" + temp + "&list=" + JSON.stringify(list);
+        var destination = "http://localhost:8080/SchedulingServlet?metric=" + temp + "&list=" + JSON.stringify(list);
         console.log(destination);
         ajax(destination, displayResults);
 
@@ -263,12 +263,8 @@ function ajax(urlParam, callBackFunction) {
 
 function displayResults(responseParam) {
 
-
-
     <?php $_SESSION['classids'] = "<script>json.parse(responseParam)</script>";?> 
     window.location.replace("generator-visualizer.php");
-
-
     
 }
 
