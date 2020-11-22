@@ -160,6 +160,10 @@ public class SchedulingServlet extends HttpServlet
         }
         ja.put(jo);
         
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        out.println(ja);
+        out.flush();
 	   
 
     }
