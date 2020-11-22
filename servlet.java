@@ -17,7 +17,7 @@ import org.json.JSONObject;
 public class SchedulingServlet extends HttpServlet
 {
 	
-	protected void doGet(XMLHttpRequest request, HttpServletResponse response) 
+  protected void doGet(HttpServletResponse request, HttpServletResponse response) 
 			throws ServletException, IOException
 	{
 		
@@ -35,19 +35,11 @@ public class SchedulingServlet extends HttpServlet
       	// get info from backend
       	// array of strings (class names) and boolean (sort by rmp score / distance)
 
-      	// convert list of class abbreviations "CSCI-201" to Course[]
-      	Course[] courses = new Course[list.size()];
-      	for(int i = 0; i < list.size(); i++)
-      	{
-      		try
-      		{
-      			courses[i] = SOC_API.get_course(list.get(i), 20203);
-      		}
-      		catch(Exception e)
-      		{
-      			System.out.println("Exception when converting String abbreviations to Courses ");
-      		}
-      	}
+      	String[] courseNames = new String[list.size()];
+        for(int i = 0; i < list.size(); i++)
+        {
+          courseNames[i] = list.get(i);
+        }
       	
 
 
@@ -55,8 +47,8 @@ public class SchedulingServlet extends HttpServlet
 
       	// we call the algorithm function, 
       	// public Schedule buildBestSchedule(Course[] courses, int schedulesDesired, boolean metric)
-		// get the Schedule
-      	Schedule myClasses = buildBestSchedule(courses, 1, valforopt)
+		    // get the Schedule
+      	Schedule myClasses = buildBestSchedule(courseNames, 20203, 1, valforopt);
 
       	// save classes into database sections table
       	for(int i = 0; i < myClasses.sections.size(); i++)
@@ -126,7 +118,11 @@ public class SchedulingServlet extends HttpServlet
 
 
       	// save classIDs as JSON, then send back out. done below:
-	
+
+
+
+        // This is an example of using putting an array of ints into a JSON, and it worked :)
+	/*
 	Integer[] test = new Integer[5];
 	    for(int i = 0; i < 5; i++)
 	    {
@@ -153,7 +149,18 @@ public class SchedulingServlet extends HttpServlet
     	    JSONObject pet = ja.getJSONObject(i);
     	    System.out.println(pet);
     	}
-	
+      */
+
+        JSONObject jo = new JSONObject();
+        JSONArray ja = new JSONArray();
+        for(int i = 0; i < myClasses.sections.size(); i++)
+        {
+          int currid = myClasses.sections.get(i).id;
+          jo.append("classIDs", currid);
+        }
+        ja.put(jo);
+        
+	   
 
     }
 
